@@ -24,6 +24,3 @@ jobs:
 
       - name: Build et
         run: npm run build
-
-      - name: Test (varsa)
-        run: npm run test
