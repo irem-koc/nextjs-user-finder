@@ -57,22 +57,24 @@ const handler = NextAuth({
       console.log("====================================");
       console.log(jwtProps, "---->>>  jwtProps");
       console.log("====================================");
-      if (user?.token) {
-        token.accessToken = user.token;
-        token.accessTokenExpiry = Date.now() + 15 * 60 * 1000;
+
+      // Check if user object is available and contains necessary fields
+      if (user) {
+        token.accessToken = user.token || null; // Set access token if available, else null
+        token.accessTokenExpiry = Date.now() + 15 * 60 * 1000; // Set expiration time for the token
         token.email = user.email;
         token.name = user.name;
         token.surname = user.surname;
         token.userId = user.userId;
       }
 
-      // token'ın süresinin geçip geçmediğini kontrol et
+      // Check if token has expired
       const shouldRefreshTime = Math.round(
         (token.accessTokenExpiry - Date.now()) / 1000
       );
 
       if (shouldRefreshTime <= 0) {
-        // Token süresi dolmuşsa
+        // If token has expired, clear the token
         return { ...token, accessToken: null };
       }
 
