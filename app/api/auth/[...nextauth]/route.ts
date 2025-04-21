@@ -52,13 +52,18 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt(jwtProps) {
+      const { token, user } = jwtProps;
+      console.log("====================================");
+      console.log(jwtProps, "---->>>  jwtProps");
+      console.log("====================================");
       if (user?.token) {
         token.accessToken = user.token;
         token.accessTokenExpiry = Date.now() + 15 * 60 * 1000;
         token.email = user.email;
         token.name = user.name;
-        token.username = user.username;
+        token.surname = user.surname;
+        token.userId = user.userId;
       }
 
       // token'ın süresinin geçip geçmediğini kontrol et
@@ -76,9 +81,7 @@ const handler = NextAuth({
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.user = {
-        email: token.email,
-        name: token.name,
-        username: token.username,
+        ...token,
       };
       return session;
     },
