@@ -1,9 +1,9 @@
 import UserList from "@/components/UserList";
 import { User } from "@/types/User";
-
+export const dynamic = "force-dynamic";
 async function fetchUsers(): Promise<User[]> {
   const res = await fetch("https://jsonplaceholder.typicode.com/users", {
-    cache: "no-store",
+    cache: "force-cache",
   });
   return res.json();
 }
