@@ -6,7 +6,6 @@ type Props = {
 };
 
 const Input = ({ searchTerm, setSearchTerm }: Props) => {
-  console.log("render edildi Input bileşen!");
   return (
     <div className="mb-4">
       <input
