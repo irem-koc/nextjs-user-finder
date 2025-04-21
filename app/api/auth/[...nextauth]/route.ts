@@ -44,7 +44,7 @@ const handler = NextAuth({
           });
 
         if (user?.data?.token) {
-          return user.data; // token varsa döner
+          return user.data;
         } else {
           throw new Error("Geçersiz giriş bilgileri");
         }
@@ -54,27 +54,20 @@ const handler = NextAuth({
   callbacks: {
     async jwt(jwtProps) {
       const { token, user } = jwtProps;
-      console.log("====================================");
-      console.log(jwtProps, "---->>>  jwtProps");
-      console.log("====================================");
-
-      // Check if user object is available and contains necessary fields
       if (user) {
-        token.accessToken = user.token || null; // Set access token if available, else null
-        token.accessTokenExpiry = Date.now() + 15 * 60 * 1000; // Set expiration time for the token
+        token.accessToken = user.token || null;
+        token.accessTokenExpiry = Date.now() + 15 * 60 * 1000;
         token.email = user.email;
         token.name = user.name;
         token.surname = user.surname;
         token.userId = user.userId;
       }
 
-      // Check if token has expired
       const shouldRefreshTime = Math.round(
         (token.accessTokenExpiry - Date.now()) / 1000
       );
 
       if (shouldRefreshTime <= 0) {
-        // If token has expired, clear the token
         return { ...token, accessToken: null };
       }
 
