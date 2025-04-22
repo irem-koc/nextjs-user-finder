@@ -28,13 +28,14 @@ const NavigationMenu = () => {
             </li>
           </>
         )}
-        {!session?.user?.accessToken && (
-          <li>
-            <Link href="/login" className="text-blue-600 hover:underline">
-              Login
-            </Link>
-          </li>
-        )}
+        {!session ||
+          (!session?.user?.accessToken && (
+            <li>
+              <Link href="/login" className="text-blue-600 hover:underline">
+                Login
+              </Link>
+            </li>
+          ))}
       </ul>
     </nav>
   );
