@@ -64,7 +64,7 @@ const handler = NextAuth({
       }
 
       const shouldRefreshTime = Math.round(
-        (token.accessTokenExpiry - Date.now()) / 1000
+        ((token.accessTokenExpiry as number) - Date.now()) / 1000
       );
 
       if (shouldRefreshTime <= 0) {
@@ -74,9 +74,13 @@ const handler = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken;
+      session.accessToken = token.accessToken as string | null;
       session.user = {
-        ...token,
+        email: token.email as string,
+        name: token.name as string,
+        surname: token.surname as string,
+        userId: token.userId as string,
+        accessToken: token.accessToken as string | null,
       };
       return session;
     },
