@@ -74,7 +74,6 @@ const handler = NextAuth({
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken as string | null;
       session.user = {
         email: token.email as string,
         name: token.name as string,

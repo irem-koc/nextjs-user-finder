@@ -9,7 +9,7 @@ const NavigationMenu = () => {
   return (
     <nav>
       <ul className="flex gap-4 p-4 bg-gray-100">
-        {session?.user?.accessToken && (
+        {session?.user && session?.user?.accessToken ? (
           <>
             <li>
               <Link href="/" className="text-blue-600 hover:underline">
@@ -27,12 +27,13 @@ const NavigationMenu = () => {
               </Link>
             </li>
           </>
+        ) : (
+          <li>
+            <Link href="/login" className="text-blue-600 hover:underline">
+              Login
+            </Link>
+          </li>
         )}
-        <li>
-          <Link href="/login" className="text-blue-600 hover:underline">
-            Login
-          </Link>
-        </li>
       </ul>
     </nav>
   );
