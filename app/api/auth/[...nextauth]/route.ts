@@ -33,8 +33,12 @@ const handler = NextAuth({
           } else {
             throw new Error("Geçersiz giriş bilgileri");
           }
-        } catch (error: any) {
-          throw new Error(error.message || "Bir hata oluştu");
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            throw new Error(error.message || "Bir hata oluştu");
+          } else {
+            throw new Error("Bir hata oluştu");
+          }
         }
       },
     }),
