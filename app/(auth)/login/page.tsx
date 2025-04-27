@@ -5,32 +5,47 @@ import { useState } from "react";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleLogin = async () => {
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: true,
-      callbackUrl: "/",
-    });
-    if (res?.error) {
-      alert("Hatalı giriş bilgileri");
+    setError("");
+
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      if (result?.error) {
+        setError(result?.error.toString());
+      } else {
+        window.location.href = "/";
+      }
+    } catch (err) {
+      setError(err.toString());
     }
   };
-  const { data } = useSession();
-  console.log(data, "session data");
+  const { data: session } = useSession();
+  if (session) {
+    return (
+      <div>
+        <h2>Zaten giriş yaptınız!</h2>
+      </div>
+    );
+  }
   return (
     <div className="p-4">
       <h1 className="text-xl mb-4">Login</h1>
-      <label htmlFor="">Email</label>
+      <label>Email</label>
       <input
-        type="text"
+        type="email"
         placeholder="Email"
         className="border p-2 mb-2 block"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <label htmlFor="">Password</label>
+      <label>Password</label>
       <input
         type="password"
         placeholder="Password"
@@ -38,6 +53,7 @@ export default function LoginPage() {
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
+      {error && <div className="text-red-500">{error}</div>}
       <button
         className="bg-blue-500 text-white px-4 py-2"
         onClick={handleLogin}
