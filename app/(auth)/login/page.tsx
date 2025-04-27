@@ -22,7 +22,7 @@ export default function LoginPage() {
       } else {
         window.location.href = "/";
       }
-    } catch (err) {
+    } catch (err: unknown) {
       setError(err.toString());
     }
   };

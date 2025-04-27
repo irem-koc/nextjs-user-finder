@@ -1,6 +1,6 @@
 "use client";
 import api from "@/lib/api";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useState } from "react";
 
 export default function SignupPage() {
@@ -22,6 +22,17 @@ export default function SignupPage() {
         surname,
         email,
         password,
+      });
+      console.log(response, "response");
+      if (!response.token) {
+        setError("Kayıt başarısız. Lütfen bilgilerinizi kontrol edin.");
+        return;
+      }
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: true,
+        callbackUrl: "/",
       });
       if (result?.error) {
         setError("Giriş başarısız. Lütfen bilgilerinizi kontrol edin.");
