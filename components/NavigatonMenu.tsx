@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NavigationMenu = () => {
-  const { status } = useSession();
+  const { data, status } = useSession();
   const pathname = usePathname();
 
   const isActive = (path: string) => {
@@ -36,6 +36,7 @@ const NavigationMenu = () => {
                 </Link>
               </button>
             </div>
+            <span>{data?.user?.name}</span>
             <button
               className="bg-black text-white p-2 rounded-xl cursor-pointer"
               onClick={() => signOut({ callbackUrl: "/login" })}
