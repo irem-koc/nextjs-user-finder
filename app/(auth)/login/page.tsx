@@ -1,5 +1,6 @@
 "use client";
 import { signIn, useSession } from "next-auth/react";
+
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -55,11 +56,25 @@ export default function LoginPage() {
       />
       {error && <div className="text-red-500">{error}</div>}
       <button
-        className="bg-blue-500 text-white px-4 py-2"
+        className="bg-blue-500 text-white px-4 py-2 cursor-pointer"
         onClick={handleLogin}
       >
         Giriş Yap
       </button>
+      <div className="flex space-x-2 my-3">
+        <button
+          onClick={() => signIn("google", { callbackUrl: "/" })}
+          className="bg-amber-400 p-2 rounded-xl cursor-pointer"
+        >
+          Sign in with Google
+        </button>
+        <button
+          onClick={() => signIn("github", { callbackUrl: "/" })}
+          className="bg-indigo-600 p-2 rounded-xl text-white cursor-pointer"
+        >
+          Sign in with Github
+        </button>
+      </div>
     </div>
   );
 }
