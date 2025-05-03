@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 
-export async function registerUser(prevState: any, formData: FormData) {
+export async function registerUser(formData: FormData) {
   const name = formData.get("name") as string;
   const surname = formData.get("surname") as string;
   const email = formData.get("email") as string;
